@@ -1,5 +1,10 @@
 'use strict'
 
+const zmq = require("zeromq")
+
+const ZMQ_ADDR = process.env.ZMQ_ADDR || false
+const ZMQ_ID = process.env.ZMQ_ID || ""+process.pid
+
 const fs = require('fs-extra')
 const path = require('path')
 
@@ -49,6 +54,25 @@ let configFile
 if (argv.env) process.env.NODE_ENV = argv.env
 if (argv.config) argv.config = path.resolve(argv.config)
 
+var sock;
+
+if(argv.watch) {
+  if(ZMQ_ADDR === false) {
+    console.log("\nZMQ_ADDR not defined\n")
+  }
+  else {
+    sock = new zmq.Push
+
+    console.log("Connecting to "+ZMQ_ADDR+" as "+ZMQ_ID)
+
+    sock.connect(ZMQ_ADDR)
+    sock.sendTimeout = 0
+
+    sock.send(JSON.stringify({ id: ZMQ_ID, event: 'init' }))
+    sock.send(JSON.stringify({ id: ZMQ_ID, event: 'watchRun' }))
+  }
+}
+
 Promise.resolve()
   .then(() => {
     if (argv.watch && !(argv.output || argv.replace || argv.dir)) {
@@ -90,8 +114,11 @@ Promise.resolve()
   })
   .then(results => {
     if (argv.watch) {
-      const printMessage = () =>
+      const printMessage = () => {
         printVerbose(chalk.dim('\nWaiting for file changes...'))
+        sock.send(JSON.stringify({ id: ZMQ_ID, event: 'done' }))
+      }
+
       const watcher = chokidar.watch(input.concat(dependencies(results)), {
         usePolling: argv.poll,
         interval: argv.poll && typeof argv.poll === 'number' ? argv.poll : 100,
@@ -104,6 +131,8 @@ Promise.resolve()
       if (configFile) watcher.add(configFile)
 
       watcher.on('ready', printMessage).on('change', file => {
+        sock.send(JSON.stringify({ id: ZMQ_ID, event: 'watchRun' }))
+
         let recompile = []
 
         if (input.includes(file)) recompile.push(file)
