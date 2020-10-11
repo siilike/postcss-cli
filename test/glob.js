@@ -1,3 +1,4 @@
+'use strict'
 const test = require('ava')
 const path = require('path')
 
@@ -5,14 +6,14 @@ const cli = require('./helpers/cli.js')
 const tmp = require('./helpers/tmp.js')
 const read = require('./helpers/read.js')
 
-test('works with glob patterns', async t => {
+test('works with glob patterns', async (t) => {
   const output = tmp()
 
   const { error, stderr } = await cli([
     'test/fixtures/glob/*.css',
     '-d',
     output,
-    '--no-map'
+    '--no-map',
   ])
 
   t.falsy(error, stderr)

@@ -1,3 +1,24 @@
+# 8.1.0 / 2020-10-08
+
+- Add support for `postcss.config.cjs` files ([#351](https://github.com/postcss/postcss-cli/pull/351))
+
+# 8.0.0 / 2020-09-21
+
+- **BREAKING:** Support postcss v8 ([#344](https://github.com/postcss/postcss-cli/issues/344), [#349](https://github.com/postcss/postcss-cli/pull/349))
+- **BREAKING:** postcss is now a `peerDependency`, you must install it seperately ([#344](https://github.com/postcss/postcss-cli/issues/344), [#349](https://github.com/postcss/postcss-cli/pull/349))
+- Upgrade dependencies ([#340](https://github.com/postcss/postcss-cli/pull/340))
+
+# 7.1.2 / 2020-08-31
+
+- Make `--version` machine-readable ([#334](https://github.com/postcss/postcss-cli/issues/334), [#335](https://github.com/postcss/postcss-cli/pull/335))
+- Organize and clarify `--help` text ([#336](https://github.com/postcss/postcss-cli/pull/336))
+- Update dependencies
+
+# 7.1.1 / 2020-04-27
+
+- Fix bug where external source maps were not properly generated ([#324](https://github.com/postcss/postcss-cli/pull/324))
+- Update dependencies
+
 # 7.1.0 / 2020-01-09
 
 - Respect `map.annotation` option when set to a string ([#307](https://github.com/postcss/postcss-cli/pull/307))

@@ -1,7 +1,8 @@
+'use strict'
 const path = require('path')
-const uuid = require('uuid')
+const { v4: uuid } = require('uuid')
 
-module.exports = function(ext) {
+module.exports = function (ext) {
   ext = ext || ''
 
   return path.join('test/fixtures/.tmp', uuid(), ext)

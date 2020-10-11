@@ -1,3 +1,4 @@
+'use strict'
 const test = require('ava')
 const path = require('path')
 
@@ -6,7 +7,7 @@ const ENV = require('./helpers/env.js')
 const cli = require('./helpers/cli.js')
 const read = require('./helpers/read.js')
 
-test('supports common config', async t => {
+test('supports common config', async (t) => {
   const env = `module.exports = {
     plugins: [
       require('postcss-import')()
@@ -28,7 +29,7 @@ test('supports common config', async t => {
   )
 })
 
-test("doesn't error on empty config", async t => {
+test("doesn't error on empty config", async (t) => {
   const env = `module.exports = {}`
 
   const dir = await ENV(env, ['a.css'])
@@ -46,7 +47,7 @@ test("doesn't error on empty config", async t => {
   )
 })
 
-test('errors if `to` is set', async t => {
+test('errors if `to` is set', async (t) => {
   const env = `module.exports = {
     to: 'out.css'
   }`
@@ -61,7 +62,7 @@ test('errors if `to` is set', async t => {
   )
 })
 
-test('errors if `from` is set', async t => {
+test('errors if `from` is set', async (t) => {
   const env = `module.exports = {
     from: 'in.css'
   }`

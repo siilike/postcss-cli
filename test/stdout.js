@@ -1,3 +1,4 @@
+'use strict'
 const test = require('ava')
 
 const fs = require('fs-extra')
@@ -6,7 +7,7 @@ const { exec } = require('child_process')
 
 const read = require('./helpers/read.js')
 
-test.cb('writes to stdout', t => {
+test.cb('writes to stdout', (t) => {
   const cp = exec(
     `node ${path.resolve(
       'bin/postcss'

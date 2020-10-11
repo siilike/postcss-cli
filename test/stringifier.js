@@ -1,10 +1,11 @@
+'use strict'
 const test = require('ava')
 
 const cli = require('./helpers/cli.js')
 const tmp = require('./helpers/tmp.js')
 const read = require('./helpers/read.js')
 
-test('--stringifier works', async t => {
+test('--stringifier works', async (t) => {
   const output = tmp('output.sss')
 
   const { error, stderr } = await cli([
@@ -13,7 +14,7 @@ test('--stringifier works', async t => {
     'sugarss',
     '-o',
     output,
-    '--no-map'
+    '--no-map',
   ])
 
   t.falsy(error, stderr)
