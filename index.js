@@ -29,6 +29,16 @@ const { dir, output } = argv
 
 if (argv.map) argv.map = { inline: false }
 
+function notifyDone(input)
+{
+  if(sock)
+  {
+    sock.send(JSON.stringify({ id: ZMQ_ID, event: 'done' }))
+  }
+
+  return input
+}
+
 const cliConfig = {
   options: {
     map: argv.map !== undefined ? argv.map : { inline: true },
@@ -111,13 +121,13 @@ Promise.resolve()
 
     input = i
 
-    return files(input)
+    return files(input).then(notifyDone)
   })
   .then((results) => {
     if (argv.watch) {
       const printMessage = () => {
         printVerbose(chalk.dim('\nWaiting for file changes...'))
-        sock.send(JSON.stringify({ id: ZMQ_ID, event: 'done' }))
+        notifyDone()
       }
 
       const watcher = chokidar.watch(input.concat(dependencies(results)), {
