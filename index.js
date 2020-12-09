@@ -144,6 +144,8 @@ Promise.resolve()
       watcher.on('ready', printMessage).on('change', (file) => {
         sock.send(JSON.stringify({ id: ZMQ_ID, event: 'watchRun' }))
 
+        printVerbose(chalk.dim('\nDetected file change: ' + file))
+
         let recompile = []
 
         if (input.includes(file)) recompile.push(file)
